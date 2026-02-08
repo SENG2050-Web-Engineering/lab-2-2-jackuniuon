@@ -10,7 +10,7 @@ public class Main {
   public static void main(String[] args) {
     // Create Tomcat instance
     Tomcat tomcat = new Tomcat();
-    tomcat.setPort(8080); // Set server port
+    tomcat.setPort(9090); // Set server port
 
     // Ensure a base directory for Tomcat
     tomcat.setBaseDir("temp");
@@ -29,7 +29,7 @@ public class Main {
     }
 
     if (ctx == null) {
-      throw new RuntimeException("Tomcat context initialization failed!");
+      throw new RuntimeException("Tomcat context initialization failed!"); 
     }
 
     // Add a servlet
@@ -37,6 +37,16 @@ public class Main {
     
     // Map the servlet
     ctx.addServletMappingDecoded("/HelloWorld", "HelloWorldServlet");
+
+    // Add and map the servlet
+    tomcat.addServlet("", "SimpleMessage", new SimpleMessage());
+    ctx.addServletMappingDecoded("/SimpleMessage", "SimpleMessage");
+
+    tomcat.addServlet("", "generateValidHTML", new generateValidHTML());
+    ctx.addServletMappingDecoded("/generateValidHTML", "generateValidHTML");
+
+    tomcat.addServlet("", "GreetingServlet", new GreetingServlet());
+    ctx.addServletMappingDecoded("/GreetingServlet", "GreetingServlet");
 
     // Start Tomcat
     try {
@@ -47,5 +57,12 @@ public class Main {
     } catch (LifecycleException e) {
       e.printStackTrace();
     }
+
+    
   }
+
+
+
+
+  
 }
